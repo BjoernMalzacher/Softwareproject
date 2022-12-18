@@ -73,11 +73,9 @@ Rückgabe:
 	ein Stringobjekt mit der Textrepresentation dieses Knotens sowie allen diesem Knoten zugewisenen Tochterknoten.
 */
 string PlusExp::pretty() {
-    string s("(");				// "klammer öffnen" anhängen	
-    s.append(e1->pretty());		// linken Knotten ausführen und das Ergebnis anhängen
+    string s(e1->pretty());		// linken Knotten ausführen und das Ergebnis anhängen
     s.append("+");				// Pluszeichen anhängen
-    s.append(e2->pretty());		// rechten Knotten ausführen und das Ergebnis anhängen
-    s.append(")");    			// "klammer zu" anhängen	
+    s.append(e2->pretty());		// rechten Knotten ausführen und das Ergebnis anhängen    				
     return s;
 }
 
@@ -113,11 +111,22 @@ Rückgabe:
 	ein Stringobjekt mit der Textrepresentation dieses Knotens sowie allen diesem Knoten zugewisenen Tochterknoten.
 */
 string MultExp::pretty() {
-    string s("(");				// "klammer öffnen" anhängen	
-    s.append(e1->pretty()); 	// linken Knotten durchwandern und das Ergebnis anhängen
-    s.append("*");				// multiplikationszeichen anhängen
-    s.append(e2->pretty());		// rechten Knotten ausführen und das Ergebnis anhängen
-    s.append(")");    			// "klammer zu" anhängen	
+  string s("");
+    if(typeid(*e1) == typeid(PlusExp)){
+        s.append("(");		
+        s.append(e1->pretty());
+        s.append(")");
+    }else{
+        s.append(e1->pretty());
+    }
+    s.append("*");
+    if(typeid(*e2) == typeid(PlusExp)){
+        s.append("(");	
+        s.append(e2->pretty());
+        s.append(")");
+    }else{
+        s.append(e2->pretty());
+    }   				
     return s;
   }
 
